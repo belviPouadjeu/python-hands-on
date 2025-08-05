@@ -22,3 +22,12 @@ class Rectangle(object):
 
     def area(self):
         return self.width * self.height
+    
+    def add_radius(self,r):
+        self.radius=self.radius + r
+
+C1 = Rectangle(2, 3)
+C2 = Rectangle(3, 4)
+
+print(C1.area())
+print(C2.area())
