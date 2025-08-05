@@ -680,4 +680,204 @@ You are working on a Python program to simulate a car dealership's inventory man
 - Task-5. Additionally, you need to create two objects of the Vehicle class object that should have a max speed of 200kmph and mileage of 20kmpl with five seating capacities, and another car object should have a max speed of 180kmph and mileage of 25kmpl with four seating capacities.
 
 
+# Write and Save Files in Python
+
+Objectives
+After completing this lab you will be able to:
+
+Write to files using Python libraries
+
+## Table of Contents
+Writing Files
+Appending Files
+Additional File modes
+Copy a File
+
+### Writing Files
+We can open a file object using the method write() to save the text file to a list. To write to a file, the mode argument must be set to w. Let’s write a file Example2.txt with the line: “This is line A”
+
+```python
+# Write line to file
+exmp2 = '/Example2.txt'
+with open(exmp2, 'w') as writefile:
+    writefile.write("This is line A")
+```
+
+We can read the file to see if it worked:
+
+```python
+# Read file
+
+with open(exmp2, 'r') as testwritefile:
+    print(testwritefile.read())
+```
+
+The method `.write()` works similar to the method .readline(), except instead of reading a new line it writes a new line. The process is illustrated in the figure. The different colour coding of the grid represents a new line added to the file after each method call.
+
+You can check the file to see if your results are correct
+```python
+# Check whether write to file
+
+with open(exmp2, 'r') as testwritefile:
+    print(testwritefile.read())
+```
+
+We write a list to a .txt file as follows:
+```python
+# Sample list of text
+
+Lines = ["This is line A\n", "This is line B\n", "This is line C\n"]
+Lines
+```
+```python
+# Write the strings in the list to text file
+
+with open('Example2.txt', 'w') as writefile:
+    for line in Lines:
+        print(line)
+        writefile.write(line)
+```
+We can verify the file is written by reading it and printing out the values:
+```python
+# Verify if writing to file is successfully executed
+
+with open('Example2.txt', 'r') as testwritefile:
+    print(testwritefile.read())
+```
+
+However, note that setting the mode to w overwrites all the existing data in the file.
+
+```python
+with open('/Example2.txt', 'w') as writefile:
+    writefile.write("Overwrite\n")
+with open('/Example2.txt', 'r') as testwritefile:
+    print(testwritefile.read())
+```
+
+## Appending Files
+We can write to files without losing any of the existing data as follows by setting the mode argument to append: a. you can append a new line as follows:
+```python
+# Write a new line to text file
+
+with open('Example2.txt', 'a') as testwritefile:
+    testwritefile.write("This is line C\n")
+    testwritefile.write("This is line D\n")
+    testwritefile.write("This is line E\n")
+```
+```python
+# Verify if the new line is in the text file
+
+with open('Example2.txt', 'r') as testwritefile:
+```
+
+## Additional modes
+It's fairly ineffecient to open the file in a or w and then reopening it in r to read any lines. Luckily we can access the file in the following modes:
+
+r+ : Reading and writing. Cannot truncate the file.
+w+ : Writing and reading. Truncates the file.
+a+ : Appending and Reading. Creates a new file, if none exists. You dont have to dwell on the specifics of each mode for this lab.
+Let's try out the a+ mode:
+```python
+with open('Example2.txt', 'a+') as testwritefile:
+    testwritefile.write("This is line E\n")
+    print(testwritefile.read())
+```
+There were no errors but read() also did not output anything. Why not? Let's take a look at write() and read() under the a+ mode:
+```python
+# Opening the file in a+ mode and writing multiple lines
+with open('Example2.txt', 'a+') as testwritefile:
+    testwritefile.write("This is line E\n")
+    print(testwritefile.read())
+    testwritefile.seek(0)
+    print(testwritefile.read())
+```
+
+Most of the file methods we've looked at work in a certain location in the file. .write()  writes at a certain location in the file. `.read()` reads at a certain location in the file and so on. You can think of this as moving your pointer around in the notepad to make changes at specific location.
+
+Opening the file in w is akin to opening the .txt file, moving your cursor to the beginning of the text file, writing new text and deleting everything that follows. Whereas opening the file in a is similiar to opening the .txt file, moving your cursor to the very end and then adding the new pieces of text.
+It is often very useful to know where the 'cursor' is in a file and be able to control it. The following methods allow us to do precisely this -
+
+`.tell()` - returns the current position in bytes
+`.seek(offset,from)` - changes the position by 'offset' bytes with respect to 'from'. From can take the value of 0,1,2 corresponding to beginning, relative to current position and end
+Now lets revisit a+
+
+```python
+with open('/Example2.txt', 'a+') as testwritefile:
+    print("Initial Location: {}".format(testwritefile.tell()))
+    
+    data = testwritefile.read()
+    if (not data):  #empty strings return false in python
+            print('Read nothing') 
+    else: 
+            print(testwritefile.read())
+            
+    testwritefile.seek(0,0) # move 0 bytes from beginning.
+    
+    print("\nNew Location : {}".format(testwritefile.tell()))
+    data = testwritefile.read()
+    if (not data): 
+            print('Read nothing') 
+    else: 
+            print(data)
+    
+    print("Location after read: {}".format(testwritefile.tell()) )
+```
+
+Finally, a note on the difference between w+ and r+. Both of these modes allow access to read and write methods, however, opening a file in w+ overwrites it and deletes all pre-existing data.
+
+In the following code block, Run the code as it is first and then run it without the `.truncate()`.
+
+```python
+with open('/Example2.txt', 'r+') as testwritefile:
+    testwritefile.seek(0,0) #write at beginning of file
+    testwritefile.write("Line 1" + "\n")
+    testwritefile.write("Line 2" + "\n")
+    testwritefile.write("Line 3" + "\n")
+    testwritefile.write("Line 4" + "\n")
+    testwritefile.write("finished\n")
+    testwritefile.seek(0,0)
+    print(testwritefile.read())
+```
+
+To work with a file on existing data, use r+ and a+. While using r+, it can be useful to add a `.truncate()` method at the end of your data. This will reduce the file to your data and delete everything that follows.
+
+```python
+with open('/Example2.txt', 'r+') as testwritefile:
+    testwritefile.seek(0,0) #write at beginning of file
+    testwritefile.write("Line 1" + "\n")
+    testwritefile.write("Line 2" + "\n")
+    testwritefile.write("Line 3" + "\n")
+    testwritefile.write("Line 4" + "\n")
+    testwritefile.write("finished\n")
+    #Uncomment the line below
+    testwritefile.truncate()
+    testwritefile.seek(0,0)
+    print(testwritefile.read())
+    
+```
+
+## Copy a File
+Let's copy the file Example2.txt to the file Example3.txt:
+```python
+with open('Example2.txt','r') as readfile:
+    with open('Example3.txt','w') as writefile:
+          for line in readfile:
+                writefile.write(line)
+```
+We can read the file to see if everything works:
+```python
+with open('Example3.txt','r') as testwritefile:
+    print(testwritefile.read())
+```
+
+After reading files, we can also write data into files and save them in different file formats like .txt, .csv, .xls (for excel files) etc. You will come across these in further examples
+
+NOTE: If you wish to open and view the example3.txt file, download this lab here and run it locally on your machine. Then go to the working directory to ensure the example3.txt file exists and contains the summary data that we wrote.
+
+### Exercise (File)
+Your local university's Raptors fan club maintains a register of its active members on a .txt document. Every month they update the file by removing the members who are not active. You have been tasked with automating this with your Python skills.
+Given the file currentMem, Remove each member with a 'no' in their Active column. Keep track of each of the removed members and append them to the exMem file. Make sure that the format of the original files in preserved. (Hint: Do this by reading/writing whole lines and ensuring the header remains )
+Run the code block below prior to starting the exercise. The skeleton code has been provided for you. Edit only the cleanFiles function.
+
+
 
