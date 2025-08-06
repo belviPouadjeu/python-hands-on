@@ -881,3 +881,188 @@ Run the code block below prior to starting the exercise. The skeleton code has b
 
 
 
+# Hands-on Lab: Loading data with Pandas
+
+## Objectives : Use Pandas to access and view data
+
+### Table of Contents
+- About the Dataset
+- Introduction of Pandas
+- Viewing Data and Accessing Data
+- Quiz on DataFrame
+
+### About the Dataset
+The table has one row for each product and several columns.
+
+ - OrderID: A unique identifier for each order
+ - Product: The name of the product purchased
+ - Category: The category to which the product belongs (e.g., Electronics, Furniture,        Stationery)
+ - Quantity: The number of units purchased for that product
+ - Price: The price per unit of the product
+ - Total: The total cost for the product (calculated as Quantity × Price)
+ - OrderDate: The date when the order was placed
+ - CustomerCity: The city where the customer resides
+
+ ### Introduction of Pandas
+
+ ```python
+ # Dependency needed to install file 
+
+%pip install xlrd openpyxl
+ ```
+
+ ```python
+ # Import required library
+
+import pandas as pd
+ ```
+
+After the import command, we now have access to a large number of pre-built classes and functions. This assumes the library is installed; in our lab environment all the necessary libraries are installed. One way pandas allows you to work with data is a dataframe. Let's go through the process to go from a comma separated values (.csv) file to a dataframe. This variable `csv_path` stores the path of the .csv, that is used as an argument to the `read_csv` function. The result is stored in the object `df`, this is a common short form used for a variable referring to a Pandas dataframe.
+
+```python
+ Read data from CSV file
+
+# csv_path = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/LXjSAttmoxJfEG6il1Bqfw/Product-sales.csv'
+# df = pd.read_csv(csv_path)
+
+from pyodide.http import pyfetch
+import pandas as pd
+
+filename = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/LXjSAttmoxJfEG6il1Bqfw/Product-sales.csv"
+
+async def download(url, filename):
+    response = await pyfetch(url)
+    if response.status == 200:
+        with open(filename, "wb") as f:
+            f.write(await response.bytes())
+
+
+await download(filename, "Product-sales.csv")
+df = pd.read_csv("Product-sales.csv")
+```
+
+Note: This version of the lab is working on JupyterLite, which requires the dataset to be downloaded to the interface. While working on the downloaded version of this notebook on their local machines, the learners can simply skip the steps above, and simply use the URL directly in the `pandas.read_csv()` function. You can uncomment and run the statements in the cell below.
+
+```python
+filename = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/LXjSAttmoxJfEG6il1Bqfw/Product-sales.csv"
+#df = pd.read_csv(filename)
+```
+
+We can use the method `head()` to examine the first five rows of a dataframe:
+```python
+# show the first five rows using dataframe.head() method
+df.head()
+```
+
+We use the path of the excel file and the function `read_excel`. The result is a data frame as before:
+```python
+# Read data from Excel File and print the first five rows
+# Read data from Excel File and print the first five rows
+
+xlsx_path = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/n9LOuKI9SlUa1b5zkaCMeg/Product-sales.xlsx'
+
+await download(xlsx_path, "Product-sales.xlsx")
+df = pd.read_excel("Product-sales.xlsx")
+df.head()
+```
+Note: This version of the lab is working on JupyterLite, which requires the dataset to be downloaded to the interface. While working on the downloaded version of this notebook on their local machines, the learners can simply skip the steps above, and simply use the URL directly in the `pandas.read_excel()` function. You can uncomment and run the statements in the cell below.
+
+```python
+xlsx_path = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/n9LOuKI9SlUa1b5zkaCMeg/Product-sales.xlsx'
+#df = pd.read_excel(xlsx_path)
+```
+
+We can access the column Quantity and assign it a new dataframe `x`:
+
+```python
+# Access to the column Quantity
+x = df[['Quantity']]
+x
+```
+
+## Viewing Data and Accessing Data
+You can also get a column as a series. You can think of a Pandas series as a 1-D dataframe. Just use one bracket:
+
+```python
+# Get the column as a series
+x = df['Product']
+x
+```
+
+You can also get a column as a dataframe. For example, we can assign the column Quantity:
+```python
+# Get the column as a dataframe
+
+x = df[['Quantity']]
+type(x)
+```
+
+You can do the same thing for multiple columns; we just put the dataframe name, in this case, `df`, and the name of the multiple column headers enclosed in double brackets. The result is a new dataframe comprised of the specified columns:
+```python
+# Access to multiple columns
+
+y = df[['Product','Category', 'Quantity']]
+y
+```
+
+```python
+# Access the value on the first row and the first column
+
+df.iloc[0, 0]
+```
+
+You can access the 2nd row and the 1st column as follows:
+
+```python
+# Access the 2nd row and the 1st column
+
+df.iloc[1,0]
+```
+
+You can access the 1st row and the 3rd column as follows:
+```python
+# Access the 1st row and the 3rd column
+
+df.iloc[0,2]
+```
+```pyhon
+## Access the value on the second row and the third column
+df.iloc[1,2]
+```
+
+You can access the column using the name as well, the following are the same as above:
+
+```python
+# Access the column using the name
+
+df.loc[0, 'Product']
+
+# Access the column using the name
+
+df.loc[1, 'Product']
+
+# Access the column using the name
+
+df.loc[1, 'CustomerCity']
+
+# Access the column using the name
+
+df.loc[1, 'Total']
+```
+
+You can perform slicing using both the index and the name of the column:
+```python
+# Slicing the dataframe
+
+df.iloc[0:2, 0:3]
+
+# Slicing the dataframe using name
+
+df.loc[0:2, 'OrderID':'Category']
+```
+### Quiz on DataFrame
+ - Use a variable `q` to store the column Price as a dataframe
+ - Assign the variable q to the dataframe that is made up of the column Product and Category
+ - Access the 2nd row and the 3rd column of ``df``
+
+
