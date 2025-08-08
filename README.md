@@ -1061,8 +1061,23 @@ df.iloc[0:2, 0:3]
 df.loc[0:2, 'OrderID':'Category']
 ```
 ### Quiz on DataFrame
- - Use a variable `q` to store the column Price as a dataframe
- - Assign the variable q to the dataframe that is made up of the column Product and Category
- - Access the 2nd row and the 3rd column of ``df``
+ - 
+ Use a variable `q` to store the column Price as a dataframe
+ - 
+ Assign the variable q to the dataframe that is made up of the column Product and Category
+ - 
+ Access the 2nd row and the 3rd column of ``df``
+
+
+ # 1D Numpy in Python¶
+
+## What is Numpy?
+**NumPy** is a Python library used for working with arrays, linear algebra, fourier transform, and matrices. NumPy stands for Numerical Python and it is an open source project. The array object in NumPy is called ndarray, it provides a lot of supporting functions that make working with ndarray very easy.
+
+Arrays are very frequently used in data science, where speed and resources are very important.
+
+NumPy is usually imported under the np alias.
+
+It's usually fixed in size and each element is of the same type. We can cast a list to a numpy array by first importing `numpy`:
 
 
