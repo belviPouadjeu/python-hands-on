@@ -1080,4 +1080,13 @@ NumPy is usually imported under the np alias.
 
 It's usually fixed in size and each element is of the same type. We can cast a list to a numpy array by first importing `numpy`:
 
+## Install nupy
+`pip install numpy`
+As numpy arrays contain data of the same type, we can use the attribute "dtype" to obtain the data type of the array’s elements. In this case, it's a 64-bit integer:
 
+# Slicing
+Like lists, we can slice the numpy array. Slicing in python means taking the elements from the given index to another given index.
+
+We pass slice like this: [start:end].The element at end index is not being included in the output.
+
+We can select the elements from 1 to 3 and assign it to a new numpy array d as follows:
