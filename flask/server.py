@@ -108,7 +108,7 @@ def name_search():
             # Return the matching person as a JSON response with a 200 OK status code
             return person, 200
 
- # If no matching person is found, return a JSON response with a message and a 404 Not Found
+    # If no matching person is found, return a JSON response with a message and a 404 Not Found
     return {"message": "Person not found"}, 404
 
 @app.route("/count")
@@ -144,6 +144,30 @@ def delete_by_uuid(id):
             return {"message": f"Person with ID {id} deleted"}, 200
     # If no matching person is found, return a JSON response with a message and a 404 Not Found status code
     return {"message": "person not found"}, 404
+
+@app.route("/person", methods=['POST'])
+def add_by_uuid():
+    new_person = request.json
+    if not new_person:
+        return {"message": "Invalid input parameter"}, 422
+    
+    # Validate required fields
+    required_fields = ["id", "first_name", "last_name", "graduation_year", "address", "city", "zip", "country", "avatar"]
+    for field in required_fields:
+        if field not in new_person:
+            return {"message": f"Missing required field: {field}"}, 422
+    
+    # Check if ID already exists
+    for person in data:
+        if person["id"] == new_person["id"]:
+            return {"message": "Person with this ID already exists"}, 422
+    
+    try:
+        data.append(new_person)
+    except NameError:
+        return {"message": "data not defined"}, 500
+
+    return {"message": f"{new_person['id']}"}, 200
 
 # Run the app
 if __name__ == '__main__':
