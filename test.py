@@ -32,10 +32,11 @@
 # print(C1.area())
 # print(C2.area())
 
+"""
 class Vehicle:
     color = "white"
 
-
+  
     def __init__(self, max_speed, mileage):
         self.max_speed = max_speed
         self.mileage = mileage
@@ -48,3 +49,33 @@ class Vehicle:
 
 V1 = Vehicle(150, 25)
 print(V1)
+"""
+"""
+for i in range(1,5):
+    if(i!=2):
+        print(i)
+        """
+
+class Rectangle(object): 
+
+    def __init__(self,width=2,height =3,color='r'):
+
+        self.height=height 
+
+        self.width=width 
+
+        self.color=color 
+
+    def drawRectangle(self): 
+
+        import matplotlib.pyplot as plt 
+
+        plt.gca().add_patch(plt.Rectangle((0, 0),self.width, self.height ,fc=self.color)) 
+
+        plt.axis('scaled') plt.show()
+
+# Create an instance of the Rectangle class
+my_rectangle = Rectangle()
+
+# Print the width attribute of the object
+print(my_rectangle.width) 
