@@ -1090,3 +1090,15 @@ Like lists, we can slice the numpy array. Slicing in python means taking the ele
 We pass slice like this: [start:end].The element at end index is not being included in the output.
 
 We can select the elements from 1 to 3 and assign it to a new numpy array d as follows:
+
+# Creating a Python Package
+
+## Objectives
+In this lab you will :
+
+  - Create a module named basic
+  - Add two functions to the module basic
+  - Create a module named stats
+  - Add two functions to the module stats
+  - Create a python package named mymath
+  - Verify that the package is working
