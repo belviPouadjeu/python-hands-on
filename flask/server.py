@@ -110,6 +110,17 @@ def name_search():
 
  # If no matching person is found, return a JSON response with a message and a 404 Not Found
     return {"message": "Person not found"}, 404
+
+@app.route("/count")
+def count():
+    try:
+        # Attempt to return a JSON response with the count of items in 'data'
+        # Replace {insert code to find length of data} with len(data) to get the length of the 'data' collection
+        return {"data count": len(data)}, 200
+    except NameError:
+        # If 'data' is not defined and raises a NameError
+        # Return a JSON response with a message and a 500 Internal Server Error status code
+        return {"message": "data not defined"}, 500
 # Run the app
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
